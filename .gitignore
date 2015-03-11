@@ -1,0 +1,6 @@
+venv/
+*/log
+cache
+*.txt
+*.zip
+*.pyc
