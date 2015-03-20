@@ -11,6 +11,9 @@ DEFAULT_DIR = "cache"
 
 cache_dir = DEFAULT_DIR
 
+if not os.path.exists(cache_dir):
+    os.makedirs(cache_dir)
+
 def md5_key(string):
     '''
     Use this to generate filenae keys
