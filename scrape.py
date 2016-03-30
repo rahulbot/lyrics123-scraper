@@ -35,18 +35,18 @@ logger.info("\tfound %d links to songs" % len(links))
 
 # now scrape lyrics from each songs
 line_count = 0
-lyrics_file = codecs.open("lyrics-"+artist+".txt", 'w', 'utf-8')
+lyrics_file = codecs.open(artist+"-lyrics.txt", 'w', 'utf-8')
 for relative_song_url in links:
     song_url = BASE_URL + relative_song_url
     if not cache.contains(song_url):
         song_page = requests.get(song_url)
         logger.debug("\tadded to cache from %s" % song_url)
         cache.put(song_url,song_page.text)
+    logging.info("  working on %s"%song_url)
     content = cache.get(song_url)
     dom = BeautifulSoup(content)
-    lyrics_tags = dom.select("#b p:nth-of-type(2)")[0].children
-    lyrics = [child for child in lyrics_tags if child.name!="br"]
-    for line in lyrics:
+    lyrics_text_list = dom.select("#b p:nth-of-type(2)")[0].findAll(text=True)
+    for line in lyrics_text_list:
         lyrics_file.write(line+os.linesep)
         line_count = line_count + 1
 
